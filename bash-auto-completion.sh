@@ -7,32 +7,23 @@ is
 working
 well"
 
-i=1
-while IFS= read -rsn 1 char
+while IFS= read -rsn 1 input
 do
+    # Pressing enter
+    if [[ ${input} == $'\0' ]];then
+        printf "\r\033[2K"
+        printf "\e[1;0m${match}"
+        exit 0
 
-    # When you press enter
-    if [[ ${char} == $'\0' ]];then
-        
-        autoCompletion="${word}$(echo "${text}" | grep --ignore-case -m1 "^${word}" | cut -c ${i}-)"
-        printf "\r${autoCompletion}\n"
-        break
-    
-    fi
-
-    # When you delete a letter
-    if [[ ${char} == $'\177' ]];then
+    # Pressing delete key
+    elif [[ ${input} == $'\177' ]];then
         word="${word%?}"
-        if [[ $i != 1 ]];then
-            let i--
-        fi
+
     else
-        word="${word}${char}";let i++
+        word="${word}${input}"
+
     fi
-    
-    tput el
-    printf "\r\e[1;97m${word}"
-    tput sc
-    printf "\e[1;92m$(echo "${text}" | grep --ignore-case -m1 "^${word}" | cut -c ${i}-)"
-    tput rc
+    match=$( printf "${text}" | grep --ignore-case -m1 "^${word}" )
+    printf "\r\033[2K"
+    printf "\e[1;0m${word:0:${#word}}\e[1;90m${match:${#word}}"
 done
