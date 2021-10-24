@@ -7,6 +7,12 @@ is
 working
 well"
 
+trap bye INT
+function bye() {
+    printf "\r\033[2K"
+    exit 0
+}
+
 while IFS= read -rsn 1 input
 do
     # Pressing enter
