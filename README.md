@@ -14,4 +14,4 @@ git clone https://github.com/HadiDotSh/Bash-Auto-Completion
 <p>Add the list of words, command or other in the variable ${text} (line 2)
 One line = One completion
 
-When the user press enter, you can retrieve the complete words with the ${autoCompletion} variable</p>
+When the user press enter, you can retrieve the complete words with the ${matcb} variable</p>
